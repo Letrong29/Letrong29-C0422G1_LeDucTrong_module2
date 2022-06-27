@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoppyFile {
-    public List<String> readFile(String sourceFile) {
+
+    public void coppy(String sourcFile, String targetFile){
         List<String> fileCoppy = new ArrayList<>();
 
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(sourceFile));
-
+            // đọc file gốc
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(sourcFile));
             while (true) {
                 String line = bufferedReader.readLine();
                 if (line == null) {
@@ -18,28 +19,24 @@ public class CoppyFile {
                 }
                 fileCoppy.add(line);
             }
-        } catch (IOException e) {
-            System.out.println("không tìm thấy file nguồn");
-        }
-        return fileCoppy;
-    }
 
-    public void wirteFile(String targetFile, List<String> fileCoppy) {
-        try {
+            // ghi file gốc vào file mới
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetFile,true));
             for (String line : fileCoppy) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("không tìm thấy file gốc");
         } catch (IOException e) {
             System.out.println("file đến đã tồn tại");
         }
     }
 
+
     public static void main(String[] args) {
         CoppyFile coppyFile = new CoppyFile();
-        List<String> list = coppyFile.readFile("src/ss16_IO_doc_ghi_file/bai_tap/source file.txt");
-        coppyFile.wirteFile("src/ss16_IO_doc_ghi_file/bai_tap/target file.txt",list);
+        coppyFile.coppy("src/ss16_IO_doc_ghi_file/bai_tap/source file.txt","src/ss16_IO_doc_ghi_file/bai_tap/target file.txt");
     }
 }
